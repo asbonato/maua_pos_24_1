@@ -25,7 +25,6 @@ app.post('/lembretes', async (req, res) => {
     res.status(201).send(lembretes[contador])
 })
 app.post('/eventos', (req, res) => {
-    console.log(req.body)
     res.status(200).send({msg: 'Ok'})
 })
 app.listen(4000, () => {
