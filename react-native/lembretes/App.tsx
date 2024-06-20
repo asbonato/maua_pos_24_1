@@ -1,37 +1,84 @@
-import { StyleSheet, TextInput, View, Text, Pressable, FlatList } from 'react-native';
+import { StyleSheet, TextInput, View, Text, Pressable, FlatList, Alert } from 'react-native';
 import { useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'
 
 interface Lembrete{
-  id: string;
+  id?: string;
   texto: string;
 }
 export default function App() {
-  const [lembrete, setLembrete] = useState('')
+  const [lembrete, setLembrete] = useState<Lembrete>({texto: ''})
   const [lembretes, setLembretes] = useState<Lembrete[]>([])
+  const [emModoDeEdicao, setEmModoDeEdicao] = useState(false)
+
   const adicionar = () => {
-    const novoLembrete: Lembrete = {id: Date.now().toString(), texto: lembrete}
+    const novoLembrete: Lembrete = {id: Date.now().toString(), texto: lembrete.texto}
     setLembretes(lembretesAtual => [novoLembrete, ...lembretesAtual])
-    setLembrete('')
+    setLembrete({texto: ''})
   }
+  const remover = (lembrete: Lembrete) => {
+    console.log('chamou remover')
+    Alert.alert(
+      //titulo
+      'Remover Lembrete',
+      //memsagem central
+      `Deseja remover este lembrete? ${lembrete.texto}`,
+      //colecao de botões
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Remover',
+          style: 'destructive',
+          onPress: () => {
+            setLembretes(
+              lembretesAtual => 
+                lembretesAtual.filter(item => item.id !== lembrete.id)
+            )
+          }
+        }
+      ]
+    )
+  }
+  const atualizar = () => {
+    const lembretesAtualizados = lembretes.map(item => {
+      if(item.id === lembrete.id){
+        return lembrete
+      }
+      return item
+    })
+    //atualiza a lista de lembretes
+    setLembretes(lembretesAtualizados)
+    //sai do modo de edição
+    setEmModoDeEdicao(false)
+    //limpa o campo de lembrete
+    setLembrete({texto: ''})
+  }
+
   return (
     <View style={styles.container}>
       <TextInput 
         style={styles.input}
         placeholder='Digite um lembrete...'
-        value={lembrete}
-        onChangeText={setLembrete}
+        value={lembrete.texto}
+        onChangeText={(novoTexto) => setLembrete(
+          {id: lembrete.id, texto: novoTexto}
+        )}
       />
       <Pressable 
         style={styles.button}
-        onPress={adicionar}>
+        onPress={emModoDeEdicao? atualizar:adicionar}>
         <Text style={styles.buttonText}>
-          Salvar Lembrete
+          {
+            emModoDeEdicao? 'Atualizar Lembrete':'Salvar Lembrete'
+          }
         </Text>
       </Pressable>
       <FlatList 
         style={styles.list}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id!}
         data={lembretes}
         renderItem={
           lembrete => (
@@ -40,12 +87,18 @@ export default function App() {
               <Text style={styles.listItemText}>{lembrete.item.texto}</Text>
               <View
                 style={styles.listItemButtons}>
-                <Pressable>
+                <Pressable onPress={() => remover(lembrete.item)} >
                   <AntDesign
                     name='delete'
                     size={24} />
                 </Pressable>
-                <Pressable>
+                <Pressable onPress={() => {
+                      setLembrete(
+                        {id: lembrete.item.id, texto:lembrete.item.texto}
+                      )
+                      setEmModoDeEdicao(true)
+                    }
+                  }>
                   <AntDesign
                     name='edit'
                     size={24} />
