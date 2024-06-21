@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View, Button, TextInput, Text } from 'react-native';
+import { StyleSheet, FlatList, View, Button, TextInput, Text, Keyboard } from 'react-native';
 import { useState } from 'react'
 import { API_KEY } from '@env'
 //crie um arquivo .env na mesma pasta do seu App.js
@@ -6,6 +6,7 @@ import { API_KEY } from '@env'
 //não se esqueça de configurar o babel.config.js
 //instale o .env com npm i -D react-native-dotenv
 //inclua a entrada .env no seu .gitignore
+import PrevisaoItem from './components/PrevisaoItem';
 
 export default function App() {
   const endPoint = "https://api.openweathermap.org/data/2.5/forecast?lang=pt_br&units=metric&q="
@@ -14,6 +15,18 @@ export default function App() {
   const [previsoes, setPrevisoes] = useState([])
   const capturarCidade = (cidade) => {
     setCidade(cidade)
+  }
+  const obtemPrevisoes = () => {
+    setPrevisoes([])
+    const target = endPoint + cidade + "&appid=" + apiKey
+    console.log(target)
+    fetch(target)
+    .then((dados) => dados.json())
+    .then((dados) => {
+      setPrevisoes(dados["list"])
+      Keyboard.dismiss()
+    })
+    .catch((err => console.log(err)))
   }
   return (
     <View style={styles.container}>
@@ -26,13 +39,14 @@ export default function App() {
         />
         <Button
           title="Ok"
+          onPress={obtemPrevisoes}
         />
       </View>
       <FlatList
         data={previsoes}
         renderItem={
           previsao => (
-            <Text>{JSON.stringify(previsao)}</Text>
+            <PrevisaoItem previsao={previsao}/>
           )
         }
       />
@@ -42,10 +56,11 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     padding: 40,
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   nomeCidade: {
     padding: 10,
