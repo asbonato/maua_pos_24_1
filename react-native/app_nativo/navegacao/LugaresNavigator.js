@@ -5,6 +5,8 @@ import ListaDeLugaresTela from  '../telas/ListaDeLugaresTela'
 import MapaTela from '../telas/MapaTela'
 import NovoLugarTela from '../telas/NovoLugarTela'
 import Cores from '../constantes/Cores'
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import BotaoCabecalho from "../componentes/BotaoCabecalho";
 
 const Stack = createNativeStackNavigator()
 
@@ -18,7 +20,24 @@ const container = (
             }}
         >
             <Stack.Screen name="DetalhesDoLugar" component={DetalhesDoLugarTela}/>
-            <Stack.Screen name="ListaDeLugares" component={ListaDeLugaresTela}/>
+            <Stack.Screen name="ListaDeLugares" 
+                component={ListaDeLugaresTela}
+                options={(props)=> ({
+                    headerRight: ()=> 
+                        <HeaderButtons
+                            HeaderButtonComponent={BotaoCabecalho}>
+                            <Item
+                                title="Adicionar"
+                                iconName="add-circle"
+                                onPress={()=>{
+                                    console.log("Chamou")
+                                    props.navigation.navigate("NovoLugar")
+                                }}
+                            />
+                        </HeaderButtons>
+                    })
+                }
+            />
             <Stack.Screen name="Mapa" component={MapaTela}/>
             <Stack.Screen name="NovoLugar" component={NovoLugarTela}/>
         </Stack.Navigator>
