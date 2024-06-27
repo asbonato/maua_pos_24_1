@@ -1,17 +1,28 @@
-import React from "react"
+import React, { useState } from "react"
 import {View, StyleSheet, Text, ScrollView, TextInput, Button} from 'react-native'
 import Cores from '../constantes/Cores'
 
 const NovoLugarTela=(props)=>{
+    const [novoLugar, setNovoLugar] = useState('')
+    const novoLugarAlterado = (texto) => {
+        setNovoLugar(texto)
+    }
+    const adicionarLugar = () => {
+        console.log("Adicionando...")
+    }
     return(
         <ScrollView>
             <View style={estilos.form}>
                 <Text style={estilos.titulo}>Novo Lugar</Text>
-                <TextInput style={estilos.textInput}/>
+                <TextInput 
+                    style={estilos.textInput}
+                    onChangeText={novoLugarAlterado}
+                    value={novoLugar}    
+                />
                 <Button
                     title="Salvar Lugar"
                     color={Cores.primary}
-                    onPress={()=>{}}
+                    onPress={()=>{adicionarLugar()}}
                 />
             </View>
         </ScrollView>
