@@ -24,7 +24,7 @@ const NovoLugarTela=(props)=>{
                     onChangeText={novoLugarAlterado}
                     value={novoLugar}    
                 />
-                
+                <TiraFoto />
                 <Button
                     title="Salvar Lugar"
                     color={Cores.primary}
