@@ -1,14 +1,19 @@
 import React, { useState } from "react"
 import {View, StyleSheet, Text, ScrollView, TextInput, Button} from 'react-native'
 import Cores from '../constantes/Cores'
+import { useDispatch } from 'react-redux'
+import * as lugaresActions from '../store/lugares-actions'
+import TiraFoto from "../componentes/TiraFoto"
 
 const NovoLugarTela=(props)=>{
+    const dispatch = useDispatch()
     const [novoLugar, setNovoLugar] = useState('')
     const novoLugarAlterado = (texto) => {
         setNovoLugar(texto)
     }
     const adicionarLugar = () => {
-        console.log("Adicionando...")
+        dispatch(lugaresActions.addLugar(novoLugar))
+        props.navigation.goBack()
     }
     return(
         <ScrollView>
@@ -19,6 +24,7 @@ const NovoLugarTela=(props)=>{
                     onChangeText={novoLugarAlterado}
                     value={novoLugar}    
                 />
+                <TiraFoto />
                 <Button
                     title="Salvar Lugar"
                     color={Cores.primary}
