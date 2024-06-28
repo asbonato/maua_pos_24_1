@@ -12,8 +12,12 @@ const NovoLugarTela=(props)=>{
         setNovoLugar(texto)
     }
     const adicionarLugar = () => {
-        dispatch(lugaresActions.addLugar(novoLugar))
+        dispatch(lugaresActions.addLugar(novoLugar, imagemURI))
         props.navigation.goBack()
+    }
+    const [imagemURI, setImagemURI] = useState()
+    const fotoTirada = imagemURI => {
+        setImagemURI(imagemURI)
     }
     return(
         <ScrollView>
@@ -24,7 +28,7 @@ const NovoLugarTela=(props)=>{
                     onChangeText={novoLugarAlterado}
                     value={novoLugar}    
                 />
-                <TiraFoto />
+                <TiraFoto onFotoTirada={fotoTirada}/>
                 <Button
                     title="Salvar Lugar"
                     color={Cores.primary}

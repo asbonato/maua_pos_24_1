@@ -21,7 +21,7 @@ const ListaDeLugaresTela=(props)=>{
                                 }
                             )
                         }
-                        imagem={null}
+                        imagem={lugar.item.imagemURI}
                         endereco={null}
                     />
             }

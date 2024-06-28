@@ -30,7 +30,7 @@ const container = (
                                 title="Adicionar"
                                 iconName="add-circle"
                                 onPress={()=>{
-                                    console.log("Chamou")
+                                    //console.log("Chamou")
                                     props.navigation.navigate("NovoLugar")
                                 }}
                             />

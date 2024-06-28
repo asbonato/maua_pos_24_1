@@ -8,7 +8,8 @@ const estadoInicial = {
 export default(estado = estadoInicial, action) => {
     switch(action.type) {
         case ADD_LUGAR:
-            const lug = new Lugar(new Date().toString(), action.dadosLugar.nomeLugar)
+            const lug = new Lugar(new Date().toString(), 
+                action.dadosLugar.nomeLugar, action.dadosLugar.imagem)
             return {
                 lugares: estado.lugares.concat(lug)
             }
