@@ -6,7 +6,8 @@ import LugarItem from "../componentes/LugarItem"
 const ListaDeLugaresTela=(props)=>{
     const lugares = useSelector(estado => estado.lugares.lugares)
     return(
-        <FlatList
+        <FlatList 
+            styles = {estilos.lista}
             data={lugares}
             keyExtractor={lugar => lugar.id}
             renderItem={
@@ -14,7 +15,7 @@ const ListaDeLugaresTela=(props)=>{
                     <LugarItem
                         nomeLugar={lugar.item.titulo}
                         onSelect={()=>
-                            props.navigation.navigate("DetalheDoLugar", 
+                            props.navigation.navigate("DetalhesDoLugar", 
                                 {
                                     tituloLugar: lugar.item.titulo,
                                     idLugar: lugar.id
@@ -30,6 +31,9 @@ const ListaDeLugaresTela=(props)=>{
 }
 
 const estilos = StyleSheet.create({
+    lista: {
+        margin: 50
+    }
 
 })
 

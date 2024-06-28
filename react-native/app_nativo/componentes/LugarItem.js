@@ -3,19 +3,21 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import Cores from '../constantes/Cores'
 
 const LugarItem = props => {
-    <TouchableOpacity
-        onPress={props.onSelect}
-        style = {estilo.LugarItem}
-    >
-        <Image
-            style = {estilo.imagem}
-            source = {{uri: props.imagem}}
-        />
-        <View style = {estilo.infoContainer}>
-            <Text style = {estilo.nomeLugar}>{props.nomeLugar}</Text>
-            <Text style = {estilo.endereco}>{props.endereco}</Text>
-        </View>
-    </TouchableOpacity>
+    return (
+        <TouchableOpacity
+            onPress={props.onSelect}
+            style = {estilo.lugarItem}
+        >
+            <Image
+                style = {estilo.imagem}
+                source = {{uri: props.imagem}}
+            />
+            <View style = {estilo.infoContainer}>
+                <Text style = {estilo.nomeLugar}>{props.nomeLugar}</Text>
+                <Text style = {estilo.endereco}>{props.endereco}</Text>
+            </View>
+        </TouchableOpacity>
+    )
 }
 const estilo = StyleSheet.create({
     lugarItem: {
